@@ -87,7 +87,7 @@ jobs:
 
       - name: Push tag
         uses: anothrNick/github-tag-action@1.34.0
-        if: ${{ env.IS_CD }}
+        if: "${{ env.IS_CD }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
