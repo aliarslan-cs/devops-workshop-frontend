@@ -41,5 +41,5 @@ jobs:
         id: generate_vars
         run: |
           IMAGE_TAG=${{ steps.generate_version.outputs.new_tag }}
-          IMAGE_NAME=format('{0}/{1}:{2}', ${{ env.DOCKERHUB_ORGANISATION }}, ${{ env.DOCKERHUB_REPOSITORY }}, $IMAGE_TAG)
+          IMAGE_NAME=${{ format('{0}/{1}:{2}', env.DOCKERHUB_ORGANISATION, env.DOCKERHUB_REPOSITORY, IMAGE_TAG) }}
           echo "Image: $IMAGE_NAME"
