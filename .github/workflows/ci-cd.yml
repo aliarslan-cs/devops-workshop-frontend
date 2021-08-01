@@ -29,60 +29,60 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Runs a single command to show event name
-      - name: Run a one-line script
-        run: echo Halo ${{ github.event_name }}!
+      # # Runs a single command to show event name
+      # - name: Run a one-line script
+      #   run: echo Halo ${{ github.event_name }}!
 
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: '0'
+      # # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # - uses: actions/checkout@v2
+      #   with:
+      #     fetch-depth: '0'
 
-      - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@1.26.0
-        id: generate_version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
-          DRY_RUN: true
-          DEFAULT_BUMP: "patch"
+      # - name: Bump version and push tag
+      #   uses: anothrNick/github-tag-action@1.26.0
+      #   id: generate_version
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     WITH_V: true
+      #     DRY_RUN: true
+      #     DEFAULT_BUMP: "patch"
 
-      - name: Generate Vars
-        id: generate_vars
-        run: |
-          IMAGE_TAG=${{ steps.generate_version.outputs.new_tag }}
-          IMAGE_NAME=${{ format('{0}/{1}', env.DOCKERHUB_ORGANISATION, env.DOCKERHUB_REPOSITORY) }}:$IMAGE_TAG
-          echo "Image: $IMAGE_NAME"
-          echo "::set-output name=image_name::$IMAGE_NAME"
-          echo IMAGE=$(echo "$IMAGE_NAME") >> $GITHUB_ENV
+      # - name: Generate Vars
+      #   id: generate_vars
+      #   run: |
+      #     IMAGE_TAG=${{ steps.generate_version.outputs.new_tag }}
+      #     IMAGE_NAME=${{ format('{0}/{1}', env.DOCKERHUB_ORGANISATION, env.DOCKERHUB_REPOSITORY) }}:$IMAGE_TAG
+      #     echo "Image: $IMAGE_NAME"
+      #     echo "::set-output name=image_name::$IMAGE_NAME"
+      #     echo IMAGE=$(echo "$IMAGE_NAME") >> $GITHUB_ENV
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v1
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v1
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1 
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # - name: Login to DockerHub
+      #   uses: docker/login-action@v1 
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
       
-      - name: Echo Output
-        run: |
-          echo "Image from Output: ${{ steps.generate_vars.outputs.image_name }}"
-          echo "Image from Env:  ${{ env.IMAGE }}"
+      # - name: Echo Output
+      #   run: |
+      #     echo "Image from Output: ${{ steps.generate_vars.outputs.image_name }}"
+      #     echo "Image from Env:  ${{ env.IMAGE }}"
 
-      - name: Build and Push Docker Image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile
-          pull: true
-          push: ${{ !contains(github.event_name, 'push') }}
-          build-args: BUILD_PARAMETERS=${{ env.BUILD_PARAMETERS }}
-          cache-to: type=inline
-          tags: ${{ env.IMAGE }}
+      # - name: Build and Push Docker Image
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     file: ./Dockerfile
+      #     pull: true
+      #     push: ${{ !contains(github.event_name, 'push') }}
+      #     build-args: BUILD_PARAMETERS=${{ env.BUILD_PARAMETERS }}
+      #     cache-to: type=inline
+      #     tags: ${{ env.IMAGE }}
 
       - name: Push tag
         if: "!contains(github.eventname, 'push')"
