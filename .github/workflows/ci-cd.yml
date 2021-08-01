@@ -38,7 +38,7 @@ jobs:
           fetch-depth: '0'
 
       - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@1.26.0
+        uses: anothrNick/github-tag-action@1.34.0
         id: generate_version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -78,14 +78,14 @@ jobs:
           context: .
           file: ./Dockerfile
           pull: true
-          push: ${{ !contains(github.event_name, 'push') }}
+          push: ${{ contains(github.event_name, 'push') }}
           build-args: BUILD_PARAMETERS=${{ env.BUILD_PARAMETERS }}
           cache-to: type=inline
           tags: ${{ env.IMAGE }}
 
       - name: Push tag
         uses: anothrNick/github-tag-action@1.34.0
-        if: "!contains(github.event_name, 'push')"
+        if: "contains(github.event_name, 'push')"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
