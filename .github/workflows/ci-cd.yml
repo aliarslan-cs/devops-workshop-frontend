@@ -41,13 +41,5 @@ jobs:
         id: generate_vars
         run: |
           IMAGE_TAG=${{ steps.generate_version.outputs.new_tag }}
-          # Just Image name
-          IMAGE_NAME=${{ format('{0}/{1}', env.DOCKERHUB_ORGANISATION, env.DOCKERHUB_REPOSITORY) }}
-          #Image ID= Name + Tag
-          IMAGE_ID=$IMAGE_NAME:$IMAGE_TAG
-          IMAGE_REPO=$REGISTRY/$IMAGE_ID
-          echo "Image: $IMAGE_REPO"
-          echo "::set-output name=image::$IMAGE_REPO"
-          echo "::set-output name=image_name::$IMAGE_NAME"
-          echo REPO=$IMAGE_NAME >> $GITHUB_ENV
-          echo IMAGE=$(echo "$REGISTRY/$IMAGE_ID") >> $GITHUB_ENV
+          IMAGE_NAME=${{ format('{0}/{1}:{2}', env.DOCKERHUB_ORGANISATION, env.DOCKERHUB_REPOSITORY, IMAGE_TAG) }}
+          echo "Image: ${{ IMAGE_NAME }}"
