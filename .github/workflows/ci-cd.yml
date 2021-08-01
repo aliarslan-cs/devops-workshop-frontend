@@ -17,6 +17,10 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  env:
+    DOCKERHUB_ORGANISATION: ${{ 'aliarsal' }}
+    DOCKERHUB_REPOSITORY: ${{ 'workshop-project-frontend' }}
+    
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
@@ -33,9 +37,6 @@ jobs:
 
       - name: Generate Vars
         id: generate_vars
-        env:
-          DOCKERHUB_ORGANISATION: ${{ 'aliarsal' }}
-          DOCKERHUB_REPOSITORY: ${{ 'workshop-project-frontend' }}
         run: |
           IMAGE_TAG=${{ steps.generate_version.outputs.new_tag }}
           # Just Image name
