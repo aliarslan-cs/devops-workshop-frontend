@@ -27,13 +27,21 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
+      # Runs a single command to show event name
       - name: Run a one-line script
-        run: echo Hello, world!
+        run: echo Halo ${{ github.event_name }}!
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Generate Vars
+        id: generate_vars
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
-          echo ${{ github.event_name }}
+          IMAGE_TAG=${{ steps.generate_version.outputs.new_tag }}
+          # Just Image name
+          IMAGE_NAME=${{ github.repository }}
+          #Image ID= Name + Tag
+          IMAGE_ID=$IMAGE_NAME:$IMAGE_TAG
+          IMAGE_REPO=$REGISTRY/$IMAGE_ID
+          echo "Image: $IMAGE_REPO"
+          echo "::set-output name=image::$IMAGE_REPO"
+          echo "::set-output name=image_name::$IMAGE_NAME"
+          echo REPO=$IMAGE_NAME >> $GITHUB_ENV
+          echo IMAGE=$(echo "$REGISTRY/$IMAGE_ID") >> $GITHUB_ENV
