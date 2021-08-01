@@ -32,7 +32,7 @@ jobs:
       # Runs a single command to show event name
       - name: Check if we need to deploy
         run: |
-          IS_CD=(${{ github.event_name }} == 'push')
+          IS_CD=(${{ github.event_name=='push' }}
           echo IS_CD=$(echo "$IS_CD") >> $GITHUB_ENV
 
       # # Runs a single command to show event name
