@@ -22,7 +22,7 @@ jobs:
     env:
       DOCKERHUB_ORGANISATION: ${{ 'aliarsal' }}
       DOCKERHUB_REPOSITORY: ${{ 'workshop-project-frontend' }}
-      IS_CD: ${{ contains(github.event_name, 'push') }}
+      IS_CD: ${{ github.event_name=='push') }}
 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -79,7 +79,7 @@ jobs:
       #     context: .
       #     file: ./Dockerfile
       #     pull: true
-      #     push: ${{ !contains(github.event_name, 'push') }}
+      #     push: ${{ env.IS_CD }}
       #     build-args: BUILD_PARAMETERS=${{ env.BUILD_PARAMETERS }}
       #     cache-to: type=inline
       #     tags: ${{ env.IMAGE }}
