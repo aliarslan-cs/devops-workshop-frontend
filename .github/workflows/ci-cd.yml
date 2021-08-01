@@ -24,6 +24,7 @@ jobs:
     env:
       DOCKERHUB_ORGANISATION: ${{ 'aliarsal' }}
       DOCKERHUB_REPOSITORY: ${{ 'workshop-project-frontend' }}
+      IS_PUSH_WORKFLOW: ${{ github.event_name }} != "push"
 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -80,7 +81,7 @@ jobs:
           context: .
           file: ./Dockerfile
           pull: true
-          push: github.event_name != "push"
+          push: ${{ github.event_name }} != "push"
           build-args: BUILD_PARAMETERS=${{ env.BUILD_PARAMETERS }}
           cache-to: type=inline
           tags: ${{ env.IMAGE }}
