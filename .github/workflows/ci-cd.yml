@@ -32,7 +32,7 @@ jobs:
       # Runs a single command to show event name
       - name: Check if we need to deploy
         run: |
-          IS_CD=(${{ github.event_name=='push' }}
+          IS_CD=(${{ github.event_name=='push' }})
           echo IS_CD=$(echo "$IS_CD") >> $GITHUB_ENV
 
       # # Runs a single command to show event name
@@ -90,10 +90,10 @@ jobs:
       #     cache-to: type=inline
       #     tags: ${{ env.IMAGE }}
 
-      - name: Push tag
-        uses: anothrNick/github-tag-action@1.34.0
-        if: ${{ env.IS_CD }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
-          DEFAULT_BUMP: "patch"
+      # - name: Push tag
+      #   uses: anothrNick/github-tag-action@1.34.0
+      #   if: ${{ env.IS_CD }}
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     WITH_V: true
+      #     DEFAULT_BUMP: "patch"
