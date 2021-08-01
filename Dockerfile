@@ -9,8 +9,11 @@ RUN npm install --production
 
 COPY . .
 
-# todo: should actually do yarn build for prod, see readme
-ENTRYPOINT ["yarn", "start"]
+RUN yarn build
+
+RUN yarn global add serve
+
+ENTRYPOINT ["serve", "-s", "build", "-p", "80"]
 
 # docker build -t aliarsal/workshop-project-frontend:1.0 .
-# docker run -it --rm --init -p 8090:3000 --name the-frontend --network the-network aliarsal/workshop-project-frontend:1.0
+# docker run -it --rm --init -p 8090:80 --name the-frontend --network the-network aliarsal/workshop-project-frontend:1.0
