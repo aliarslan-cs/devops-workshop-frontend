@@ -80,7 +80,7 @@ jobs:
           context: .
           file: ./Dockerfile
           pull: true
-          push: true
+          push: github.event_name != "push"
           build-args: BUILD_PARAMETERS=${{ env.BUILD_PARAMETERS }}
           cache-to: type=inline
           tags: ${{ env.IMAGE }}
