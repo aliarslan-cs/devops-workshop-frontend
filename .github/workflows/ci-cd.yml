@@ -25,7 +25,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      # - uses: actions/checkout@v2
 
       # Runs a single command to show event name
       - name: Run a one-line script
@@ -39,7 +39,7 @@ jobs:
         run: |
           IMAGE_TAG=${{ steps.generate_version.outputs.new_tag }}
           # Just Image name
-          IMAGE_NAME=${{ format('{0}/{1}', DOCKERHUB_ORGANISATION, DOCKERHUB_REPOSITORY) }}
+          IMAGE_NAME=${{ format('{0}/{1}', env.DOCKERHUB_ORGANISATION, env.DOCKERHUB_REPOSITORY) }}
           #Image ID= Name + Tag
           IMAGE_ID=$IMAGE_NAME:$IMAGE_TAG
           IMAGE_REPO=$REGISTRY/$IMAGE_ID
