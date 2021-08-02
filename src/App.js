@@ -25,7 +25,7 @@ class App extends React.Component {
 
   fetchData() {
     this.setState({ loading: true });
-    const apiUrl = `http://192.168.188.40:8080/people`;
+    const apiUrl = `http://the-backend:8080/people`;
     axios.get(apiUrl).then((resp) => {
       const allPeople = resp.data;
       this.setState({ loading: false, people: allPeople });
