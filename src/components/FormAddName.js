@@ -15,7 +15,7 @@ function FormAddName(props) {
       Name: name,
       Nickname: nick
     }
-    axios.post('http://http://192.168.99.101:32000/insert', data).then(res => {
+    axios.post('http://192.168.99.101:32000/insert', data).then(res => {
       setData(res.data);
       setName('');
       setNick('');
